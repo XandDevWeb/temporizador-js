@@ -10,9 +10,27 @@
 		<span>Oi, temporizador.</span>
 		<!--<span onselectstart="return false">Oi, temporizador.</span>-->
 
-		<div class="set">
-			<select class="set-time minuts"></select>
-			<select class="set-time seconds"></select>
+		<div class="definitions">
+
+			<div class="unit-box">
+				<label for="select-minuts">Minutos</label>
+				<select id="select-minuts" class="set-time minuts"></select>
+			</div>
+			<div class="unit-box">
+				<label for="select-seconds">Segundos</label>
+				<select id="select-seconds" class="set-time seconds"></select>	
+			</div>
+
+			<button type="button" id="start">Iniciar</button>
+
+		</div>
+
+		<div class="display">
+			
+			<h3 id="minutes">00</h3>
+			<span>:</span>
+			<h3 id="seconds">00</h3>
+
 		</div>
 
 		<script src="./js/app.js"></script>
