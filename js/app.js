@@ -24,26 +24,29 @@ const fillSelects = selects => {
 const invocateFillSelects = () => fillSelects( selects )
 
 //############### Regra de negócio do Temporizador ###############
-
+/*
 const getValuesUnits = () => {
 	const [ { value:min }, { value:sec } ] = selects
 
 	return [+min, +sec]
 }
 
-//const decrementUnit = unit => unit !== 0 ? --unit : "00"
-
-const insertUnitInYourDisplay = (unitContainer, value) => unitContainer.innerHTML = `${value}`
-
+const insertUnitInYourDisplay = (unitContainer, value) =>
+	unitContainer.innerHTML = `${value}`*/
+/*
 const unitHTMLDisplay = unitContainer => +unitContainer.innerHTML
 
 const decrementUnit = seconds =>
 	()=> {
+			const minutesHTMLDisplay = unitHTMLDisplay(minutesContainer)
+			const minutesHTMLDisplayBiggerThenZero =
+				minutesHTMLDisplay > 0
+
 			if ( seconds === 0 )
 			{
-				if ( unitHTMLDisplay(minutesContainer) > 0 )
+				if ( minutesHTMLDisplayBiggerThenZero )
 				{
-					insertUnitInYourDisplay( minutesContainer, ( unitHTMLDisplay(minutesContainer) - 1 ) )
+					insertUnitInYourDisplay( minutesContainer, ( minutesHTMLDisplay - 1 ) )
 
 					seconds = 59
 					return 59
@@ -54,7 +57,7 @@ const decrementUnit = seconds =>
 
 			seconds -= 1
 			return seconds
-		}
+		}*/
 
 const start = () => {
 	const [minutes, seconds] = getValuesUnits()
@@ -64,10 +67,11 @@ const start = () => {
 
 	const decrementSeconds = decrementUnit(seconds)
 
-	setInterval(() => {
+	const startTimer = () => {
 		insertUnitInYourDisplay(secondsContainer, decrementSeconds(minutes))
+	}
 
-	}, 1000)
+	setInterval( startTimer, 1000)
 
 }
 
@@ -75,4 +79,4 @@ const start = () => {
 
 window.addEventListener("load", invocateFillSelects )
 
-startButton.addEventListener("click", start)
+startButton.addEventListener("click", () => {timer.start()})
