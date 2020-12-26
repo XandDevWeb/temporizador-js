@@ -7,30 +7,43 @@
 		<link rel="stylesheet" href="./css/style.css" />
 	</head>
 	<body>
-		<h1>Temporizador</h1>
+		<div class="timer">
+			<h1>Temporizador</h1>
 
-		<div class="definitions">
+			<div class="definitions">
 
-			<div class="box-selects">
-				<div class="unit-box">
-					<label for="select-minuts">Minutos</label>
-					<select id="select-minuts" class="set-time minuts"></select>
+				<div class="box-selects">
+					<div class="unit-box">
+						<label for="select-minuts">Minutos</label>
+						<select id="select-minuts" class="set-time minuts"></select>
+					</div>
+					<div class="unit-box">
+						<label for="select-seconds">Segundos</label>
+						<select id="select-seconds" class="set-time seconds"></select>	
+					</div>
 				</div>
-				<div class="unit-box">
-					<label for="select-seconds">Segundos</label>
-					<select id="select-seconds" class="set-time seconds"></select>	
-				</div>
+
+				<button type="button" id="start">Iniciar</button>
+
 			</div>
 
-			<button type="button" id="start">Iniciar</button>
+			<div class="display">
+				
+				<h3 class="visible-unit-value" id="minutes">00</h3>
+				<span>:</span>
+				<h3 class="visible-unit-value" id="seconds">00</h3>
 
-		</div>
+			</div>
 
-		<div class="display">
-			
-			<h3 class="visible-unit-value" id="minutes">00</h3>
-			<span>:</span>
-			<h3 class="visible-unit-value" id="seconds">00</h3>
+			<div class="controls" style="display: none;">
+
+				<button type="button" class="button-controls" id="restart">Restaurar</button>
+
+				<button type="button" class="button-controls" id="stop">Parar</button>
+
+				<button type="button" class="button-controls" id="replay" style="display: none;">Retomar</button>
+
+			</div>
 
 		</div>
 

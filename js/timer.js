@@ -1,19 +1,31 @@
+
+const minutesContainer = document.getElementById("minutes")
+const secondsContainer = document.getElementById("seconds")
+
+const startButton = document.getElementById("start")
+const restartButton = document.getElementById("restart")
+const stopButton = document.getElementById("stop")
+const replayButton = document.getElementById("replay")
+
+
+const controlsContainer = document.querySelector(".controls")
+
 const timer = {
 
 	selects: document.querySelectorAll(".set-time"),
-
-	startButton: document.getElementById("start"),
 
 	minutesContainer: document.getElementById("minutes"),
 
 	secondsContainer: document.getElementById("seconds"),
 
-	interval: 0,
+	interval: null,
 
-	getValuesUnits: function () {
+	getValuesUnits: function (of) {
 		const [ { value:min }, { value:sec } ] = this.selects
 
-		return [+min, +sec]
+		return of === "display"
+			? [+minutesContainer.innerText, +secondsContainer.innerText]
+			: [+min, +sec]
 	},
 
 	insertUnitInYourDisplay: function (unitContainer, value) {
@@ -41,8 +53,9 @@ const timer = {
 					return 59
 				}
 
-				clearInterval(this.interval)
-				return 0
+				this.stop(this.interval)
+				this.hiddenControls()
+				return "00"
 			}
 			
 			seconds -= 1
@@ -50,12 +63,21 @@ const timer = {
 		}
 	},
 
-	start: function () {
-		const [minutes, seconds] = this.getValuesUnits()
+	createInterval: function (startTimer, decrementSeconds) {
+		return setInterval( startTimer, 1000)
+	},
+
+	clearDisplay: function () {
+		this.insertUnitInYourDisplay(minutesContainer, "00")
+		this.insertUnitInYourDisplay(secondsContainer, "00")
+	},
+
+	start: function (of) {
+		const [minutes, seconds] = this.getValuesUnits(of)
 
 		if ( minutes === 0 && seconds === 0 ) {
 			alert("Não pode iniciar do 0(zero).")
-			return
+			return false
 		}
 
 		this.insertUnitInYourDisplay(minutesContainer, minutes)
@@ -68,6 +90,60 @@ const timer = {
 			this.insertUnitInYourDisplay(this.secondsContainer, decrementSeconds(minutes))
 		}
 
-		this.interval = setInterval( startTimer, 1000)
-	}
+		this.interval = this.createInterval(startTimer, decrementSeconds)
+
+		return true
+	},
+
+	stop: function (interval) {
+		clearInterval(interval)
+	},
+
+	restart: function (interval) {
+		this.stop(interval)
+		this.clearDisplay()
+	},
+
+	showControls: function () {
+		controlsContainer.style.display = "flex"
+	},
+
+	hiddenControls: function () {
+		controlsContainer.style.display = "none"
+	},
+
+	showStopButton: function () {
+		stopButton.style.display = "inline"
+		replayButton.style.display = "none"
+	},
+
+	hiddenStopButton: function () {
+		stopButton.style.display = "none"
+		replayButton.style.display = "inline"
+	},
+
+	pressStartButton: function () {
+		const timerIsOn = this.start()
+
+		if ( timerIsOn ) {
+			this.showControls()
+		}
+	},
+
+	pressRestartButton: function () {
+		this.restart(this.interval)
+
+		this.hiddenControls()
+
+	},
+
+	pressStopButton: function () {
+		this.stop(this.interval)
+		this.hiddenStopButton()
+	},
+
+	pressReplayButton: function () {
+		this.start("display")
+		this.showStopButton()
+	},
 }
