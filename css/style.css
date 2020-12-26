@@ -1,0 +1,79 @@
+*
+{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body
+{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 60px;
+	padding: 8px;
+	/*overflow: hidden;*/
+}
+
+h1
+{
+	font-family: Arial;
+	font-size: 2rem;
+	text-align: center;
+}
+
+div.definitions
+{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 30px;
+}
+
+div.definitions div.box-selects
+{
+	display: flex;
+	gap: 30px;
+	position: relative;
+}
+
+div.definitions div.box-selects div.unit-box
+{
+	display: flex;
+	flex-direction: column;
+}
+
+div.definitions div.box-selects div.unit-box label
+{
+	text-transform: lowercase;
+	font-family: sans-serif;
+}
+
+div.definitions div.box-selects div.unit-box select.set-time
+{
+	margin-top: 6px
+}
+
+div.definitions button#start
+{
+	width: 100%;
+	height: 45px;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 14pt;
+	letter-spacing: 1px;
+}
+
+div.display
+{
+	display: flex;
+	font-size: 1.8rem;
+	letter-spacing: 3px;
+}
+
+div.display span
+{
+	margin-left: 2px;
+	margin-right: 2px;
+}

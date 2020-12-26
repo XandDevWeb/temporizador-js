@@ -7,18 +7,19 @@
 		<link rel="stylesheet" href="./css/style.css" />
 	</head>
 	<body>
-		<span>Oi, temporizador.</span>
-		<!--<span onselectstart="return false">Oi, temporizador.</span>-->
+		<h1>Temporizador</h1>
 
 		<div class="definitions">
 
-			<div class="unit-box">
-				<label for="select-minuts">Minutos</label>
-				<select id="select-minuts" class="set-time minuts"></select>
-			</div>
-			<div class="unit-box">
-				<label for="select-seconds">Segundos</label>
-				<select id="select-seconds" class="set-time seconds"></select>	
+			<div class="box-selects">
+				<div class="unit-box">
+					<label for="select-minuts">Minutos</label>
+					<select id="select-minuts" class="set-time minuts"></select>
+				</div>
+				<div class="unit-box">
+					<label for="select-seconds">Segundos</label>
+					<select id="select-seconds" class="set-time seconds"></select>	
+				</div>
 			</div>
 
 			<button type="button" id="start">Iniciar</button>
@@ -27,9 +28,9 @@
 
 		<div class="display">
 			
-			<h3 id="minutes">00</h3>
+			<h3 class="visible-unit-value" id="minutes">00</h3>
 			<span>:</span>
-			<h3 id="seconds">00</h3>
+			<h3 class="visible-unit-value" id="seconds">00</h3>
 
 		</div>
 
