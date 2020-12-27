@@ -7,6 +7,7 @@ const startButton = document.getElementById("start")
 const restartButton = document.getElementById("restart")
 const stopButton = document.getElementById("stop")
 const replayButton = document.getElementById("replay")
+const stopAlarmButton = document.getElementById("stop-alarm")
 
 
 const controlsContainer = document.querySelector(".controls")
@@ -20,6 +21,13 @@ const timer = {
 	secondsContainer,
 
 	interval: null,
+
+	objectAlarmAudio: null,
+
+	clearLoopAlarm: function () {
+		this.objectAlarmAudio.loop = false
+		this.hiddenStopAlarmButton()
+	},
 
 	getValuesUnits: function (of) {
 		const [ { value:min }, { value:sec } ] = this.selects
@@ -56,13 +64,41 @@ const timer = {
 				}
 
 				this.stop(this.interval)
+				this.objectAlarmAudio = this.alarm()
 				this.hiddenControls()
+				this.showStopAlarmButton()
 				return 0
 			}
 			
+			this.ticTac()
+
 			seconds -= 1
 			return seconds
 		}
+	},
+
+	alarm: function () {
+		const alarm = this.alarmAudio()
+		alarm.play()
+
+		return alarm
+	},
+
+	ticTac: function () {
+		this.ticTacAudio().play()
+	},
+
+	alarmAudio: function () {
+		const alarm = new Audio()
+		alarm.src = "media/despertador.mp3"
+		alarm.loop = true
+		return alarm
+	},
+
+	ticTacAudio: function () {
+		const ticTac = new Audio()
+		ticTac.src = "media/tic-tac.mp3"
+		return ticTac
 	},
 
 	createInterval: function (startTimer, decrementSeconds) {
@@ -70,8 +106,8 @@ const timer = {
 	},
 
 	clearDisplay: function () {
-		this.insertUnitInYourDisplay(minutesContainer, "00")
-		this.insertUnitInYourDisplay(secondsContainer, "00")
+		this.insertUnitInYourDisplay(minutesContainer, 0)
+		this.insertUnitInYourDisplay(secondsContainer, 0)
 	},
 
 	start: function (of) {
@@ -110,6 +146,14 @@ const timer = {
 		controlsContainer.style.display = "flex"
 	},
 
+	showStopAlarmButton: function () {
+		stopAlarmButton.style.display = "inline"
+	},
+
+	hiddenStopAlarmButton: function () {
+		stopAlarmButton.style.display = "none"
+	},
+
 	hiddenControls: function () {
 		controlsContainer.style.display = "none"
 	},
@@ -134,7 +178,7 @@ const timer = {
 
 	pressRestartButton: function () {
 		this.restart(this.interval)
-
+		this.showStopButton()
 		this.hiddenControls()
 
 	},

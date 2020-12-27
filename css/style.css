@@ -93,4 +93,20 @@ div.controls
 {
 	align-items: center;
 	justify-content: space-between;
+	width: 100%;
+}
+
+div.controls button, button#stop-alarm
+{
+	min-width: 100px;
+	padding: 4px;
+	margin-left: 2px;
+	margin-right: 2px;
+	text-transform: lowercase;
+	font-size: 12pt;
+}
+
+button#stop-alarm
+{
+	text-transform: uppercase;
 }
