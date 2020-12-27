@@ -1,11 +1,3 @@
-
-const selects = document.querySelectorAll(".set-time")
-/*
-const startButton = document.getElementById("start")
-const restartButton = document.getElementById("restart")
-const replayButton = document.getElementById("replay")
-const stopButton = document.getElementById("stop")
-*/
 //############### Incluir os options dinamicamente ###############
 
 const fillSelects = selects => {
@@ -19,7 +11,7 @@ const fillSelects = selects => {
 
 	const insertOptions = select => select.innerHTML = options()
 
-	selects.forEach( insertOptions )
+	timer.selects.forEach( insertOptions )
 }
 
 const invocateFillSelects = () => fillSelects( selects )

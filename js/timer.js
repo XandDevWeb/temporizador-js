@@ -1,3 +1,4 @@
+const selects = document.querySelectorAll(".set-time")
 
 const minutesContainer = document.getElementById("minutes")
 const secondsContainer = document.getElementById("seconds")
@@ -12,11 +13,11 @@ const controlsContainer = document.querySelector(".controls")
 
 const timer = {
 
-	selects: document.querySelectorAll(".set-time"),
+	selects,
 
-	minutesContainer: document.getElementById("minutes"),
+	minutesContainer,
 
-	secondsContainer: document.getElementById("seconds"),
+	secondsContainer,
 
 	interval: null,
 
@@ -29,7 +30,8 @@ const timer = {
 	},
 
 	insertUnitInYourDisplay: function (unitContainer, value) {
-		unitContainer.innerHTML = `${value}`
+		const time = value <= 10 ? `0${value}` : value
+		unitContainer.innerHTML = time
 	},
 
 	unitHTMLDisplay: function (unitContainer) {
@@ -55,7 +57,7 @@ const timer = {
 
 				this.stop(this.interval)
 				this.hiddenControls()
-				return "00"
+				return 0
 			}
 			
 			seconds -= 1
