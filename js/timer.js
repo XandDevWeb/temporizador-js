@@ -12,9 +12,20 @@ const stopAlarmButton = document.getElementById("stop-alarm")
 
 const controlsContainer = document.querySelector(".controls")
 
-const timer = {
+const loadAudio = (src, loop = false) => {
+    const audio = new Audio()
+    audio.src = src
+    audio.loop = loop
 
-	selects,
+    return () => {
+    	audio.play()
+    	return audio
+    }
+}
+
+const formatTimeUnit = unit => unit <= 10 ? `0${unit}` : unit
+
+const timer = {
 
 	minutesContainer,
 
@@ -24,26 +35,35 @@ const timer = {
 
 	objectAlarmAudio: null,
 
+	alarm: loadAudio("media/despertador.mp3", true),
+
+	ticTac: loadAudio("media/tic-tac.mp3"),
+
 	clearLoopAlarm: function () {
 		this.objectAlarmAudio.loop = false
-		this.hiddenStopAlarmButton()
+
+		this.manipulateDisplayElement(stopAlarmButton, "none")
 	},
 
-	getValuesUnits: function (of) {
-		const [ { value:min }, { value:sec } ] = this.selects
+	getValuesUnits: of => {
+		const [ { value:min }, { value:sec } ] = selects
 
 		return of === "display"
 			? [+minutesContainer.innerText, +secondsContainer.innerText]
 			: [+min, +sec]
 	},
 
-	insertUnitInYourDisplay: function (unitContainer, value) {
-		const time = value <= 10 ? `0${value}` : value
-		unitContainer.innerHTML = time
-	},
+	insertUnitInYourDisplay: (unitContainer, value) => 
+		unitContainer.innerHTML = formatTimeUnit(value),
 
-	unitHTMLDisplay: function (unitContainer) {
-		return +unitContainer.innerHTML
+	unitHTMLDisplay: unitContainer => +unitContainer.innerHTML,
+
+	finaly: function () {
+		this.stop(this.interval)
+		this.objectAlarmAudio = this.alarm()
+
+		this.manipulateDisplayElement(controlsContainer, "none")
+		this.manipulateDisplayElement(stopAlarmButton, "flex")
 	},
 
 	decrementUnit: function (seconds) {
@@ -62,48 +82,17 @@ const timer = {
 					seconds = 59
 					return 59
 				}
-
-				this.stop(this.interval)
-				this.objectAlarmAudio = this.alarm()
-				this.hiddenControls()
-				this.showStopAlarmButton()
+				this.finaly()
 				return 0
 			}
-			
 			this.ticTac()
-
 			seconds -= 1
+
 			return seconds
 		}
 	},
 
-	alarm: function () {
-		const alarm = this.alarmAudio()
-		alarm.play()
-
-		return alarm
-	},
-
-	ticTac: function () {
-		this.ticTacAudio().play()
-	},
-
-	alarmAudio: function () {
-		const alarm = new Audio()
-		alarm.src = "media/despertador.mp3"
-		alarm.loop = true
-		return alarm
-	},
-
-	ticTacAudio: function () {
-		const ticTac = new Audio()
-		ticTac.src = "media/tic-tac.mp3"
-		return ticTac
-	},
-
-	createInterval: function (startTimer, decrementSeconds) {
-		return setInterval( startTimer, 1000)
-	},
+	createInterval: (startTimer, decrementSeconds) => setInterval( startTimer, 1000),
 
 	clearDisplay: function () {
 		this.insertUnitInYourDisplay(minutesContainer, 0)
@@ -123,73 +112,61 @@ const timer = {
 
 		const decrementSeconds = this.decrementUnit(seconds)
 
-		const startTimer = () => {
-
+		const startTimer = () =>
 			this.insertUnitInYourDisplay(this.secondsContainer, decrementSeconds(minutes))
-		}
 
 		this.interval = this.createInterval(startTimer, decrementSeconds)
 
 		return true
 	},
 
-	stop: function (interval) {
-		clearInterval(interval)
-	},
+	stop: interval => clearInterval(interval),
 
 	restart: function (interval) {
 		this.stop(interval)
 		this.clearDisplay()
 	},
 
-	showControls: function () {
-		controlsContainer.style.display = "flex"
-	},
+	manipulateDisplayElement: (element, styleDisplay ) => {
 
-	showStopAlarmButton: function () {
-		stopAlarmButton.style.display = "inline"
-	},
-
-	hiddenStopAlarmButton: function () {
-		stopAlarmButton.style.display = "none"
-	},
-
-	hiddenControls: function () {
-		controlsContainer.style.display = "none"
-	},
-
-	showStopButton: function () {
-		stopButton.style.display = "inline"
-		replayButton.style.display = "none"
-	},
-
-	hiddenStopButton: function () {
-		stopButton.style.display = "none"
-		replayButton.style.display = "inline"
+		if ( styleDisplay === "none" ) {
+			element.style.display = "none"
+			return
+		}
+		if ( styleDisplay === "flex" ) {
+			element.style.display = "flex"
+			return
+		}
 	},
 
 	pressStartButton: function () {
 		const timerIsOn = this.start()
 
 		if ( timerIsOn ) {
-			this.showControls()
+			this.manipulateDisplayElement(controlsContainer, "flex")
 		}
 	},
 
 	pressRestartButton: function () {
 		this.restart(this.interval)
-		this.showStopButton()
-		this.hiddenControls()
 
+		this.manipulateDisplayElement(stopButton, "flex")
+		this.manipulateDisplayElement(replayButton, "none")
+
+		this.manipulateDisplayElement(controlsContainer, "none")
 	},
 
 	pressStopButton: function () {
 		this.stop(this.interval)
-		this.hiddenStopButton()
+
+		this.manipulateDisplayElement(stopButton, "none")
+		this.manipulateDisplayElement(replayButton, "flex")
 	},
 
 	pressReplayButton: function () {
 		this.start("display")
-		this.showStopButton()
-	},
+
+		this.manipulateDisplayElement(stopButton, "flex")
+		this.manipulateDisplayElement(replayButton, "none")
+	}
 }

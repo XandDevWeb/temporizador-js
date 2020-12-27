@@ -104,6 +104,10 @@ div.controls button, button#stop-alarm
 	margin-right: 2px;
 	text-transform: lowercase;
 	font-size: 12pt;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 button#stop-alarm

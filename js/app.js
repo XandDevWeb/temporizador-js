@@ -11,7 +11,7 @@ const fillSelects = selects => {
 
 	const insertOptions = select => select.innerHTML = options()
 
-	timer.selects.forEach( insertOptions )
+	selects.forEach( insertOptions )
 }
 
 const invocateFillSelects = () => fillSelects( selects )
